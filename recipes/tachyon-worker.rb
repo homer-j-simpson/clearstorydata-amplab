@@ -1,5 +1,3 @@
-require 'etc'
-
 include_recipe 'clearstorydata-amplab::tachyon-install'
 
 if node['csd-tachyon']['enabled']

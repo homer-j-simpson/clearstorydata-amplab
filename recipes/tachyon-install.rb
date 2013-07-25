@@ -75,18 +75,18 @@ if node['csd-tachyon']['enabled']
          "find #{install_dir.inspect} -perm -0400 -exec chmod g+x {} \\;"
   end
 
-  tachyon_dir = "/tachyon/data"
-  execute "Create #{path} on HDFS" do
+  tachyon_hdfs_dir = "/tachyon/data"
+  execute "Create #{tachyon_hdfs_dir} on HDFS" do
     user "hdfs"
     group "hdfs"
-    command hdfs_dir_create_cmd(path)
+    command hdfs_dir_create_cmd(tachyon_hdfs_dir)
   end
 
-  execute "Set permissions on #{path}" do
+  execute "Set permissions on #{tachyon_hdfs_dir}" do
     user "hdfs"
     group "hdfs"
-    command hdfs_chown_cmd("#{tachyon_user}:#{tachyon_user}", path) + " && " +
-            hdfs_chmod_cmd("a+rx", path)
+    command hdfs_chown_cmd("#{tachyon_user}:#{tachyon_user}", tachyon_hdfs_dir) + " && " +
+            hdfs_chmod_cmd("a+rx", tachyon_hdfs_dir)
   end
 
 else

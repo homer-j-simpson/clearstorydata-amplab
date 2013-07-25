@@ -11,6 +11,8 @@ recipe "clearstorydata-amplab::tachyon-master", "Sets up Tachyon master using Mo
 recipe "clearstorydata-amplab::tachyon-worker", "Sets up Tachyon worker using Monit"
 
 depends "clearstorydata", "~> 0.11.0"
+depends "clearstorydata-monit", "~> 1.3.2"
+depends "cloudera", "~> 1.2.2"
 
 %w{ debian ubuntu }.each do |os|
   supports os
