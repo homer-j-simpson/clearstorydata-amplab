@@ -1,0 +1,14 @@
+#!/bin/bash
+
+. "<%= @conf_dir %>/tachyon-env.sh"
+
+exec java ${TACHYON_JAVA_OPTS} \
+  -Dtachyon.logger.type=MASTER_LOGGER \
+  -Dtachyon.master.log.file=<%= File.join(@hdfs_uri, 'tachyon/tachyon_log.data') %> \
+  -Dtachyon.master.checkpoint.file=<%=
+    File.join(@hdfs_uri, 'tachyon/tachyon_checkpoint.data')
+  %> \
+  -Dtachyon.master.pinlist="/pinfiles;/pindata" \
+  tachyon.Master \
+  1><%= File.join(@log_dir, 'master-startup.out') %> \
+  2><%= File.join(@log_dir, 'master-startup.err') %>

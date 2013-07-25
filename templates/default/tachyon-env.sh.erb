@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# In our case TACHYON_JAR contains classpath, not a single jar.
+TACHYON_JAR="<%= @hadoop_conf_dir %>"
+for j in $( find <%= @install_dir %> -type f -name "tachyon*.jar" ); do
+  TACHYON_JAR+=:${j}
+done
+
+TACHYON_JAVA_OPTS="-cp ${TACHYON_JAR}"
+TACHYON_JAVA_OPTS+='
+  -Dlog4j.configuration=file:<%= File.join(@conf_dir, '/log4j.properties') %>
+  -Dtachyon.debug=true
+  -Dtachyon.home=<%= @install_dir %>
+  -Dtachyon.master.hostname=<%= @master_hostname %>
+  -Dtachyon.master.port=<%= @master_port %>
+  -Dtachyon.underfs.address=<%= @hdfs_uri %>'
+
+# These options are used by Tachyon's scripts but not when running Tachyon with Monit.
+export TACHYON_JAR
+export TACHYON_HOME=<%= @install_dir.inspect %>
+export TACHYON_UNDERFS_ADDRESS=<%= @hdfs_uri %>
+export TACHYON_MASTER_ADDRESS=<%= @master_hostname.inspect %>
