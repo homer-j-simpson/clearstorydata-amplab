@@ -51,6 +51,6 @@ if node['csd-tachyon']['enabled']
     subscribes :restart, "clearstorydata-monit_monitor[#{service_name}]", :delayed
     subscribes :restart, "clearstorydata-monit_notify_if_not_running[#{service_name}]", :delayed
     subscribes :restart, "template[#{worker_script}]", :delayed
-    subscribes :restart, "template[#{node['csd-tachyon']['conf_dir']}/tachyon-env.sh.erb]", :delayed
+    subscribes :restart, "template[#{node['csd-tachyon']['conf_dir']}/tachyon-env.sh]", :delayed
   end
 end
