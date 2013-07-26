@@ -7,6 +7,7 @@ exec java ${TACHYON_JAVA_OPTS} \
   -Dtachyon.worker.timeout.ms=60000 \
   -Dtachyon.worker.memory.size=<%= @worker_mem_mb %>MB \
   -Dtachyon.worker.data.folder=<%= File.join(@ram_folder, 'tachyonworker/') %> \
+  -Xmx<%= @worker_heap_size_mb %>m \
   tachyon.Worker <%= @worker_host %> \
   1><%= File.join(@log_dir, 'worker-startup.out') %> \
   2><%= File.join(@log_dir, 'worker-startup.err') %>
