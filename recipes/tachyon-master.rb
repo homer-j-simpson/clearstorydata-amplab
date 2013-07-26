@@ -3,6 +3,23 @@ include_recipe 'clearstorydata-amplab::tachyon-install'
 if node['csd-tachyon']['enabled']
   tachyon_user = node['csd-tachyon']['user']
 
+  # Create HDFS directories and set permissions.
+  tachyon_hdfs_dir = "/tachyon/data"
+  execute "Create #{tachyon_hdfs_dir} on HDFS" do
+    user "hdfs"
+    group "hdfs"
+    command hdfs_dir_create_cmd(tachyon_hdfs_dir)
+  end
+
+  [File.dirname(tachyon_hdfs_dir), tachyon_hdfs_dir].each do |dir|
+    execute "Set permissions on #{dir}" do
+      user "hdfs"
+      group "hdfs"
+      command hdfs_chown_cmd("#{tachyon_user}:#{tachyon_user}", dir) + " && " +
+              hdfs_chmod_cmd("a+rx", dir)
+    end
+  end
+
   master_script = "#{node['csd-tachyon']['install_dir']}/bin/monit/tachyon-master.sh"
   template master_script do
     source 'tachyon-master.sh.erb'
