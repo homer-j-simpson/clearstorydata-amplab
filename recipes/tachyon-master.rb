@@ -4,19 +4,23 @@ if node['csd-tachyon']['enabled']
   tachyon_user = node['csd-tachyon']['user']
 
   # Create HDFS directories and set permissions.
-  tachyon_hdfs_dir = "/tachyon/data"
+  tachyon_hdfs_dir = node['csd-tachyon']['hdfs_data_dir']
   execute "Create #{tachyon_hdfs_dir} on HDFS" do
     user "hdfs"
     group "hdfs"
     command hdfs_dir_create_cmd(tachyon_hdfs_dir)
   end
 
+  # Set permissions on the Tachyon data directory, but also on its parent directory, if the data
+  # directory is not a top-level one. This assumes that the parent directory is exclusive to
+  # Tachyon as well, e.g. /tachyon in the default case when hdfs_data_dir is set to /tachyon/data.
   [File.dirname(tachyon_hdfs_dir), tachyon_hdfs_dir].each do |dir|
     execute "Set permissions on #{dir}" do
       user "hdfs"
       group "hdfs"
       command hdfs_chown_cmd("#{tachyon_user}:#{tachyon_user}", dir) + " && " +
               hdfs_chmod_cmd("a+rx", dir)
+      not_if { dir == '/' }
     end
   end
 

@@ -32,10 +32,9 @@ if node['csd-tachyon']['enabled']
     node.default['csd-tachyon']['conf_dir'] = conf_dir
   end
 
-  data_dir = node['csd-tachyon']['data_dir']
   log_dir = node['csd-tachyon']['log_dir']
 
-  [conf_dir, data_dir, log_dir, install_dir + "/bin/monit"].each do |dir|
+  [conf_dir, log_dir, install_dir + "/bin/monit"].each do |dir|
     directory dir do
       mode 0755
       owner tachyon_user
@@ -51,14 +50,6 @@ if node['csd-tachyon']['enabled']
     owner tachyon_user
     group tachyon_user
     not_if { log_dir == log_dir_symlink }
-  end
-
-  data_dir_symlink = install_dir + '/data'
-  link data_dir_symlink do
-    to data_dir
-    owner tachyon_user
-    group tachyon_user
-    not_if { data_dir == data_dir_symlink }
   end
 
   template "#{conf_dir}/tachyon-env.sh" do

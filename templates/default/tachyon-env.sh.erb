@@ -9,6 +9,7 @@ done
 TACHYON_JAVA_OPTS="-cp ${TACHYON_JAR}"
 TACHYON_JAVA_OPTS+='
   -Dlog4j.configuration=file:<%= File.join(@conf_dir, '/log4j.properties') %>
+  -Dtachyon.data.folder=<%= @hdfs_data_dir %>
   -Dtachyon.debug=true
   -Dtachyon.home=<%= @install_dir %>
   -Dtachyon.master.hostname=<%= @master_hostname %>
