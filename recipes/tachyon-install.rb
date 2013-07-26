@@ -1,4 +1,9 @@
 if node['csd-tachyon']['enabled']
+
+  if node['csd-tachyon']['java_debug_enabled']
+    include_recipe "clearstorydata::find-free-port"
+  end
+
   tachyon_user = node['csd-tachyon']['user']
   user_account tachyon_user do
     comment      "Tachyon"

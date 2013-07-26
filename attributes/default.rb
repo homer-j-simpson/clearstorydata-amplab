@@ -3,9 +3,12 @@
 # e.g. /tachyon in the default case.
 default["csd-tachyon"]["hdfs_data_dir"] = "/tachyon/data"
 
+default["csd-tachyon"]["default_debug_port"] = 23200
 default["csd-tachyon"]["enabled"] = false
 default["csd-tachyon"]["install_dir"] = "/usr/share/tachyon-hadoop2"
+default["csd-tachyon"]["java_debug_enabled"] = true
 default["csd-tachyon"]["log_dir"] = "/var/log/tachyon"
+default["csd-tachyon"]["master_debug_port"] = 23210
 default["csd-tachyon"]["master_heap_size_mb"] = 128
 default["csd-tachyon"]["master_hostname"] = nil  # This is set using DNS by default.
 default["csd-tachyon"]["master_port"] = 19998
@@ -13,5 +16,6 @@ default["csd-tachyon"]["pkg_name"] = "tachyon-hadoop2"
 default["csd-tachyon"]["ram_folder"] = "/mnt/ramdisk"
 default["csd-tachyon"]["ramfs_size_mb"] = 512
 default["csd-tachyon"]["user"] = "spark"
+default["csd-tachyon"]["worker_debug_port"] = 23220
 default["csd-tachyon"]["worker_heap_size_mb"] = 128
 default["csd-tachyon"]["worker_mem_mb"] = 512

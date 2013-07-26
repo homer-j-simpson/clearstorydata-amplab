@@ -1,5 +1,6 @@
 #!/bin/bash
 
+MAIN_CLASS=tachyon.Master
 . "<%= @conf_dir %>/tachyon-env.sh"
 
 exec java ${TACHYON_JAVA_OPTS} \
@@ -10,6 +11,6 @@ exec java ${TACHYON_JAVA_OPTS} \
   %> \
   -Dtachyon.master.pinlist="/pinfiles;/pindata" \
   -Xmx<%= @master_heap_size_mb %>m \
-  tachyon.Master \
+  ${MAIN_CLASS} \
   1><%= File.join(@log_dir, 'master-startup.out') %> \
   2><%= File.join(@log_dir, 'master-startup.err') %>

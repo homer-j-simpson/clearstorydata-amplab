@@ -21,3 +21,26 @@ export TACHYON_JAR
 export TACHYON_HOME=<%= @install_dir.inspect %>
 export TACHYON_UNDERFS_ADDRESS=<%= @hdfs_uri %>
 export TACHYON_MASTER_ADDRESS=<%= @master_hostname.inspect %>
+
+<% if @java_debug_enabled %>
+
+if [ -z "${DEBUG_PORT:-}" ]; then
+  case "${MAIN_CLASS}" in
+    tachyon.Master) DEBUG_PORT=<%= @master_debug_port %>; break ;;
+    tachyon.Worker) DEBUG_PORT=<%= @worker_debug_port %>; break ;;
+  done
+  if [ -z "${DEBUG_PORT:-}" ]; then
+    DEBUG_PORT=<%= @default_debug_port %>
+  fi
+fi
+
+FREE_DEBUG_PORT=$( /usr/local/bin/find-free-port.rb $DEBUG_PORT 10 "Java debugger" )
+if [ -z "$FREE_DEBUG_PORT" ]; then
+  echo "Could not find free port for Java debugger starting with $DEBUG_PORT" >&2
+  exit 1
+fi
+
+TACHYON_JAVA_OPTS+=" -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=$FREE_DEBUG_PORT"
+unset DEBUG_PORT FREE_DEBUG_PORT
+
+<% end %>

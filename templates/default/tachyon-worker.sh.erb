@@ -1,5 +1,6 @@
 #!/bin/bash
 
+MAIN_CLASS=tachyon.Worker
 . "<%= @conf_dir %>/tachyon-env.sh"
 
 exec java ${TACHYON_JAVA_OPTS} \
@@ -8,6 +9,6 @@ exec java ${TACHYON_JAVA_OPTS} \
   -Dtachyon.worker.memory.size=<%= @worker_mem_mb %>MB \
   -Dtachyon.worker.data.folder=<%= File.join(@ram_folder, 'tachyonworker/') %> \
   -Xmx<%= @worker_heap_size_mb %>m \
-  tachyon.Worker <%= @worker_host %> \
+  ${MAIN_CLASS} <%= @worker_host %> \
   1><%= File.join(@log_dir, 'worker-startup.out') %> \
   2><%= File.join(@log_dir, 'worker-startup.err') %>
