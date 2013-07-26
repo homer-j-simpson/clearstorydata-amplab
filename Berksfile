@@ -2,6 +2,7 @@ site :opscode
 
 metadata
 
+cookbook 'bag_config', github: 'clearstorydata/cookbooks', protocol: :ssh, rel: 'bag_config'
 cookbook 'cloudera', github: 'clearstorydata/cookbooks', protocol: :ssh, rel: 'cloudera'
 cookbook 'clearstorydata', github: 'clearstorydata/cookbooks', protocol: :ssh, rel: 'clearstorydata'
 cookbook 'clearstorydata-monit', github: 'clearstorydata/cookbooks', protocol: :ssh, rel: 'clearstorydata-monit'
