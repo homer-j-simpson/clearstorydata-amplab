@@ -1,4 +1,4 @@
-name             "clearstorydata"
+name             "clearstorydata-amplab"
 maintainer       "ClearStory Data"
 maintainer_email "mbautin@clearstorydata.com"
 license          "All rights reserved"
