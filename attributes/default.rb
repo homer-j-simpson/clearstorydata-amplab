@@ -17,5 +17,10 @@ default["csd-tachyon"]["ram_folder"] = "/mnt/ramdisk"
 default["csd-tachyon"]["ramfs_size_mb"] = 512
 default["csd-tachyon"]["user"] = "spark"
 default["csd-tachyon"]["worker_debug_port"] = 23220
+
+# The amount of memory allocated to the worker JVM.
 default["csd-tachyon"]["worker_heap_size_mb"] = 128
+
+# This sets the tachyon.worker.memory.size option that limits the amount of memory the worker
+# can use on the ramdisk. Should not be larger than the ramdisk size.
 default["csd-tachyon"]["worker_mem_mb"] = 512
