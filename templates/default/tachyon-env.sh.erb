@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# In our case TACHYON_JAR contains classpath, not a single jar.
+TACHYON_JAR="<%= @hadoop_conf_dir %>"
+for j in $( find <%= @install_dir %> -type f -name "tachyon*.jar" ); do
+  TACHYON_JAR+=:${j}
+done
+
+TACHYON_JAVA_OPTS="-cp ${TACHYON_JAR}"
+TACHYON_JAVA_OPTS+='
+  -Dlog4j.configuration=file:<%= File.join(@conf_dir, '/log4j.properties') %>
+  -Dtachyon.data.folder=<%= @hdfs_data_dir %>
+  -Dtachyon.debug=true
+  -Dtachyon.home=<%= @install_dir %>
+  -Dtachyon.master.hostname=<%= @master_hostname %>
+  -Dtachyon.master.port=<%= @master_port %>
+  -Dtachyon.underfs.address=<%= @hdfs_uri %>'
+
+# These options are used by Tachyon's scripts but not when running Tachyon with Monit.
+export TACHYON_JAR
+export TACHYON_HOME=<%= @install_dir.inspect %>
+export TACHYON_UNDERFS_ADDRESS=<%= @hdfs_uri %>
+export TACHYON_MASTER_ADDRESS=<%= @master_hostname.inspect %>
+
+<% if @java_debug_enabled %>
+
+if [ -z "${DEBUG_PORT:-}" ]; then
+  case "${MAIN_CLASS}" in
+    tachyon.Master) DEBUG_PORT=<%= @master_debug_port %>; break ;;
+    tachyon.Worker) DEBUG_PORT=<%= @worker_debug_port %>; break ;;
+    *) DEBUG_PORT=<%= @default_debug_port %>
+  esac
+fi
+
+FREE_DEBUG_PORT=$( /usr/local/bin/find-free-port.rb $DEBUG_PORT 10 "Java debugger" )
+if [ -z "$FREE_DEBUG_PORT" ]; then
+  echo "Could not find free port for Java debugger starting with $DEBUG_PORT" >&2
+  exit 1
+fi
+
+TACHYON_JAVA_OPTS+=" -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=$FREE_DEBUG_PORT"
+unset DEBUG_PORT FREE_DEBUG_PORT
+
+<% end %>
