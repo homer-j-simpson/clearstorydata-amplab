@@ -26,6 +26,10 @@ if node['csd-tachyon']['enabled']
     node.default['csd-tachyon']['worker_host'] = node['hostname']
   end
 
+  if !node['csd-tachyon']['worker_mem_mb'] && node['csd-tachyon']['ramfs_size_mb']
+    node.default['csd-tachyon']['worker_mem_mb'] = node['csd-tachyon']['ramfs_size_mb']
+  end
+
   worker_script = ::File.join(node['csd-tachyon']['install_dir'], 'bin/monit/tachyon-worker.sh')
   template worker_script do
     source 'tachyon-worker.sh.erb'

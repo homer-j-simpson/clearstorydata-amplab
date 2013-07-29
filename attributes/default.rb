@@ -22,5 +22,6 @@ default["csd-tachyon"]["worker_debug_port"] = 23220
 default["csd-tachyon"]["worker_heap_size_mb"] = 128
 
 # This sets the tachyon.worker.memory.size option that limits the amount of memory the worker
-# can use on the ramdisk. Should not be larger than the ramdisk size.
-default["csd-tachyon"]["worker_mem_mb"] = 512
+# can use on the ramdisk. Should not be larger than the ramdisk size. This is equal to the ramdisk
+# size (node["csd-tachyon"]["ramfs_size_mb"]) by default.
+default["csd-tachyon"]["worker_mem_mb"] = nil
