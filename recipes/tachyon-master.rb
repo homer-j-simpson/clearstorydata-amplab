@@ -1,6 +1,8 @@
 include_recipe 'clearstorydata-amplab::tachyon-install'
 
 if node['csd-tachyon']['enabled']
+  include_recipe 'ddns::register-hostname'
+
   tachyon_user = node['csd-tachyon']['user']
 
   # Create HDFS directories and set permissions.
@@ -14,7 +16,7 @@ if node['csd-tachyon']['enabled']
   # Set permissions on the Tachyon data directory, but also on its parent directory, if the data
   # directory is not a top-level one. This assumes that the parent directory is exclusive to
   # Tachyon as well, e.g. /tachyon in the default case when hdfs_data_dir is set to /tachyon/data.
-  [File.dirname(tachyon_hdfs_dir), tachyon_hdfs_dir].each do |dir|
+  [::File.dirname(tachyon_hdfs_dir), tachyon_hdfs_dir].each do |dir|
     execute "Set permissions on #{dir}" do
       user "hdfs"
       group "hdfs"
@@ -24,7 +26,7 @@ if node['csd-tachyon']['enabled']
     end
   end
 
-  master_script = "#{node['csd-tachyon']['install_dir']}/bin/monit/tachyon-master.sh"
+  master_script = ::File.join(node['csd-tachyon']['install_dir'], 'bin/monit/tachyon-master.sh')
   template master_script do
     source 'tachyon-master.sh.erb'
     mode 0744

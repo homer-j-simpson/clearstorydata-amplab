@@ -26,7 +26,7 @@ if node['csd-tachyon']['enabled']
     node.default['csd-tachyon']['worker_host'] = node['hostname']
   end
 
-  worker_script = "#{node['csd-tachyon']['install_dir']}/bin/monit/tachyon-worker.sh"
+  worker_script = ::File.join(node['csd-tachyon']['install_dir'], 'bin/monit/tachyon-worker.sh')
   template worker_script do
     source 'tachyon-worker.sh.erb'
     mode 0744
