@@ -1,3 +1,5 @@
+require 'shellwords'
+
 if node['csd-tachyon']['enabled']
 
   if node['csd-tachyon']['java_debug_enabled']
@@ -66,8 +68,8 @@ if node['csd-tachyon']['enabled']
 
   bash "fix-tachyon-permissions" do
     # Make all scripts in the Tachyon's bin directory executable by the Tachyon user/group.
-    code "chgrp -R #{tachyon_user} #{install_dir.inspect}; " +
-         "find #{::File.join(install_dir, 'bin').inspect} -perm -0100 -exec chmod g+x {} \\;"
+    code "chgrp -R #{tachyon_user} #{install_dir.shellescape}; " +
+         "find #{::File.join(install_dir, 'bin').shellescape} -perm -0100 -exec chmod g+x {} \\;"
   end
 
 else
