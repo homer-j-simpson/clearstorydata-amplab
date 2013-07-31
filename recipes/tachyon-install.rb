@@ -6,7 +6,6 @@ if node['csd-tachyon']['enabled']
 
   tachyon_user = node['csd-tachyon']['user']
   user_account tachyon_user do
-    comment      "Tachyon"
     create_group true
     ssh_keygen   false
   end
