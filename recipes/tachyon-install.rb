@@ -66,9 +66,9 @@ if node['csd-tachyon']['enabled']
   end
 
   bash "fix-tachyon-permissions" do
-    # Make all scripts in the Tachyon installation directory executable by the Tachyon user/group.
+    # Make all scripts in the Tachyon's bin directory executable by the Tachyon user/group.
     code "chgrp -R #{tachyon_user} #{install_dir.inspect}; " +
-         "find #{install_dir.inspect} -perm -0400 -exec chmod g+x {} \\;"
+         "find #{::File.join(install_dir, 'bin').inspect} -perm -0100 -exec chmod g+x {} \\;"
   end
 
 else
