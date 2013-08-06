@@ -29,7 +29,7 @@ if node['csd-tachyon']['enabled']
   master_script = ::File.join(node['csd-tachyon']['install_dir'], 'bin/monit/tachyon-master.sh')
   template master_script do
     source 'tachyon-master.sh.erb'
-    mode 0744
+    mode 0754  # this needs to be executable by both user and group
     user tachyon_user
     group tachyon_user
     variables node['csd-tachyon']

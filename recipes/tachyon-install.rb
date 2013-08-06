@@ -1,3 +1,5 @@
+require 'shellwords'
+
 if node['csd-tachyon']['enabled']
 
   if node['csd-tachyon']['java_debug_enabled']
@@ -6,7 +8,6 @@ if node['csd-tachyon']['enabled']
 
   tachyon_user = node['csd-tachyon']['user']
   user_account tachyon_user do
-    comment      "Tachyon"
     create_group true
     ssh_keygen   false
   end
@@ -66,9 +67,9 @@ if node['csd-tachyon']['enabled']
   end
 
   bash "fix-tachyon-permissions" do
-    # Make all scripts in the Tachyon installation directory executable by the Tachyon user/group.
-    code "chgrp -R #{tachyon_user} #{install_dir.inspect}; " +
-         "find #{install_dir.inspect} -perm -0400 -exec chmod g+x {} \\;"
+    # Make all scripts in the Tachyon's bin directory executable by the Tachyon user/group.
+    code "chgrp -R #{tachyon_user} #{install_dir.shellescape}; " +
+         "find #{::File.join(install_dir, 'bin').shellescape} -perm -0100 -exec chmod g+x {} \\;"
   end
 
 else

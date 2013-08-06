@@ -33,7 +33,7 @@ if node['csd-tachyon']['enabled']
   worker_script = ::File.join(node['csd-tachyon']['install_dir'], 'bin/monit/tachyon-worker.sh')
   template worker_script do
     source 'tachyon-worker.sh.erb'
-    mode 0744
+    mode 0754  # this needs to be executable by both user and group
     user tachyon_user
     group tachyon_user
     variables node['csd-tachyon']
