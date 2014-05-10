@@ -5,7 +5,6 @@ metadata
 cookbook 'bag_config', github: 'clearstorydata/cookbooks', protocol: :ssh, rel: 'bag_config'
 cookbook 'cloudera', github: 'clearstorydata/cookbooks', protocol: :ssh, rel: 'cloudera'
 cookbook 'clearstorydata', github: 'clearstorydata/cookbooks', protocol: :ssh, rel: 'clearstorydata'
-cookbook 'clearstorydata-monit', github: 'clearstorydata/cookbooks', protocol: :ssh, rel: 'clearstorydata-monit'
 cookbook 'duplicity_backup', github: 'clearstorydata/cookbooks', protocol: :ssh, rel: 'duplicity_backup'
 cookbook 'ddns', github: 'clearstorydata/cookbooks', protocol: :ssh, rel: 'ddns'
 cookbook 'java', github: 'clearstorydata/cookbooks', protocol: :ssh, rel: 'java'
