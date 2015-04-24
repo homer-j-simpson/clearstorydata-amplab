@@ -58,8 +58,8 @@ if node['csd-tachyon']['enabled']
 
   monit_wrapper_service service_name do
     subscribes :restart, "clearstorydata_package[#{node['csd-tachyon']['pkg_name']}]", :delayed
-    subscribes :restart, "monit-wrapper_monitor[#{service_name}]", :delayed
-    subscribes :restart, "monit-wrapper_notify_if_not_running[#{service_name}]", :delayed
+    subscribes :restart, "monit_wrapper_monitor[#{service_name}]", :delayed
+    subscribes :restart, "monit_wrapper_notify_if_not_running[#{service_name}]", :delayed
     subscribes :restart, "template[#{master_script}]", :delayed
     subscribes :restart, "template[#{node['csd-tachyon']['conf_dir']}/tachyon-env.sh]", :delayed
   end
